@@ -1,0 +1,63 @@
+import { useState } from 'react';
+import axios from 'axios';
+
+function App() {
+  const [token, setToken] = useState('');
+  const [adminMessage, setAdminMessage] = useState('');
+
+  const handleLogin = async () => {
+    try {
+      const res = await axios.post('/api/login', {
+        username: "test_user",
+        password: "password"
+      });
+      setToken(res.data.token);
+      setAdminMessage('ログイン成功。トークンを取得しました。');
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleAdminAccess = async () => {
+    try {
+      const res = await axios.get('/api/admin', {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      setAdminMessage(res.data.message);
+    } catch (error: any) {
+      setAdminMessage(error.response?.data?.detail || '通信エラー');
+    }
+  };
+
+  return (
+    <div style={{ padding: '30px', fontFamily: 'sans-serif', maxWidth: '600px' }}>
+      <h2>JWT ハッキングデモ</h2>
+      
+      <div style={{ marginBottom: '20px', padding: '15px', background: '#f0f0f0' }}>
+        <h3>1. ログインしてJWTを取得</h3>
+        <button onClick={handleLogin}>一般ユーザーとしてログイン</button>
+      </div>
+
+      <div style={{ marginBottom: '20px', padding: '15px', background: '#e0f7fa' }}>
+        <h3>2. 現在のJWT (編集可能)</h3>
+        <textarea 
+          value={token} 
+          onChange={(e) => setToken(e.target.value)}
+          rows={5} 
+          style={{ width: '100%', wordBreak: 'break-all' }}
+        />
+        <p style={{ fontSize: '12px', color: '#666' }}>
+          ※攻撃者はこのトークンを jwt.io 等で偽造し、ここに貼り付けます
+        </p>
+      </div>
+
+      <div style={{ marginBottom: '20px', padding: '15px', background: '#ffebee' }}>
+        <h3>3. 管理者APIへアクセス</h3>
+        <button onClick={handleAdminAccess}>/api/admin を叩く</button>
+        <p><b>レスポンス:</b> {adminMessage}</p>
+      </div>
+    </div>
+  );
+}
+
+export default App;
