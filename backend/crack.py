@@ -14,11 +14,11 @@ dictionary = ["password", "123456", "admin", "secret", "secret123", "qwerty"]
 for secret in dictionary:
     try:
         jwt.decode(token, secret, algorithms=["HS256"])
-        print(f"秘密鍵を特定しました！！ -> {secret}")
+        print(f"秘密鍵を特定しました -> {secret}")
         sys.exit(0)
     except jwt.InvalidSignatureError:
         pass
     except Exception as e:
         pass
 
-print("辞書の中に正解はありませんでした。")
+print("辞書の中に正解はありませんでした")

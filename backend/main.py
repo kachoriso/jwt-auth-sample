@@ -13,7 +13,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# 意図的な脆弱性: 推測可能な弱い秘密鍵をハードコード
+# 推測可能な弱い秘密鍵をハードコード
 SECRET_KEY = "secret123"
 
 class LoginRequest(BaseModel):
@@ -22,12 +22,12 @@ class LoginRequest(BaseModel):
 
 @app.post("/api/login")
 def login(req: LoginRequest):
-    # デモ用: 誰でも「一般ユーザー」としてログイン成功とする
+    # 誰でも「一般ユーザー」としてログイン成功とする
     payload = {
         "sub": req.username,
         "role": "user"
     }
-    # JWTを生成（署名アルゴリズムはHS256）
+    # JWTを生成
     token = jwt.encode(payload, SECRET_KEY, algorithm="HS256")
     return {"token": token}
 
@@ -39,7 +39,7 @@ def admin_data(authorization: str = Header(None)):
     token = authorization.replace("Bearer ", "")
     
     try:
-        # JWTの検証
+        # JWT検証
         decoded = jwt.decode(token, SECRET_KEY, algorithms=["HS256"])
         
         # 権限チェック

@@ -12,7 +12,7 @@ function App() {
         password: "password"
       });
       setToken(res.data.token);
-      setAdminMessage('ログイン成功。トークンを取得しました。');
+      setAdminMessage('ログイン成功');
     } catch (error) {
       console.error(error);
     }
@@ -31,15 +31,16 @@ function App() {
 
   return (
     <div style={{ padding: '30px', fontFamily: 'sans-serif', maxWidth: '600px' }}>
-      <h2>JWTデモ</h2>
-      
       <div style={{ marginBottom: '20px', padding: '15px', background: '#f0f0f0' }}>
-        <h3>1. ログインしてJWTを取得</h3>
-        <button onClick={handleLogin}>一般ユーザーとしてログイン</button>
+        <h3>一般ユーザーログイン</h3>
+        <button onClick={handleLogin}>ログイン</button>
       </div>
-
+      <div style={{ marginBottom: '20px', padding: '15px', background: '#ffebee' }}>
+        <h3>管理者ログイン</h3>
+        <button onClick={handleAdminAccess}>ログイン</button>
+      </div>
       <div style={{ marginBottom: '20px', padding: '15px', background: '#e0f7fa' }}>
-        <h3>2. 現在のJWT</h3>
+        <h3>JWT</h3>
         <textarea 
           value={token} 
           onChange={(e) => setToken(e.target.value)}
@@ -48,12 +49,7 @@ function App() {
         />
         <p style={{ fontSize: '12px', color: '#666' }}>
         </p>
-      </div>
-
-      <div style={{ marginBottom: '20px', padding: '15px', background: '#ffebee' }}>
-        <h3>3. 管理者APIへアクセス</h3>
-        <button onClick={handleAdminAccess}>/api/admin を叩く</button>
-        <p><b>レスポンス:</b> {adminMessage}</p>
+        <p>{adminMessage}</p>
       </div>
     </div>
   );
