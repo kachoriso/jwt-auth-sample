@@ -31,7 +31,7 @@ function App() {
 
   return (
     <div style={{ padding: '30px', fontFamily: 'sans-serif', maxWidth: '600px' }}>
-      <h2>JWT ハッキングデモ</h2>
+      <h2>JWTデモ</h2>
       
       <div style={{ marginBottom: '20px', padding: '15px', background: '#f0f0f0' }}>
         <h3>1. ログインしてJWTを取得</h3>
@@ -39,7 +39,7 @@ function App() {
       </div>
 
       <div style={{ marginBottom: '20px', padding: '15px', background: '#e0f7fa' }}>
-        <h3>2. 現在のJWT (編集可能)</h3>
+        <h3>2. 現在のJWT</h3>
         <textarea 
           value={token} 
           onChange={(e) => setToken(e.target.value)}
@@ -47,7 +47,6 @@ function App() {
           style={{ width: '100%', wordBreak: 'break-all' }}
         />
         <p style={{ fontSize: '12px', color: '#666' }}>
-          ※攻撃者はこのトークンを jwt.io 等で偽造し、ここに貼り付けます
         </p>
       </div>
 
